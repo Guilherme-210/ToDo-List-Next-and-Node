@@ -1,0 +1,34 @@
+import Button from "@/components/Button";
+
+export default function Card({title, description, addDate, deliveryDate}: Readonly<{
+  title: string;
+  description: string;
+  addDate: string;
+  deliveryDate: string;
+}>) {
+  return (
+    <>
+      <li className="bg-gray-700 text-black p-4 rounded shadow flex flex-col hover:bg-gray-400 gap-2">
+        <div className="flex justify-between items-center gap-4">
+          <h3 className="text-lg font-semibold">{title}</h3>
+
+          <div className="flex items-center gap-2 flex flex-col ">
+            <span className="text-sm text-black">Add: {addDate}</span>
+            <span className="text-sm text-black">delivery: {deliveryDate}</span>
+          </div>
+        </div>
+
+        <p className="text-black ">{description}</p>
+
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:justify-between">
+          <Button  className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded">
+            Mark as completed
+          </Button>
+          <Button className="bg-red-500 text-white hover:bg-red-600 transition px-3 py-1 rounded">
+            Delete
+          </Button>
+        </div>
+      </li>
+    </>
+  )
+}

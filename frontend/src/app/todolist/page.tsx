@@ -1,14 +1,14 @@
-import List from "@/components/List"
-import Form from "@/components/Form"
+import ListTodo from "@/components/ListTodo"
+import FormTodo from "@/components/FormTodo"
 
 export default function TodoList() {
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start justify-items-center p-8 pb-20 min-h-screen font-[family-name:var(--font-geist-sans)]">
       {/* Formulário */}
-      <Form />
+      <FormTodo />
 
       {/* Lista de Tarefas */}
-      <List />
+      <ListTodo />
     </main>
   )
 }

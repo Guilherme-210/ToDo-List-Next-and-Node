@@ -1,4 +1,4 @@
-import Button from "@/components/Button"
+import LinkButton from "@/components/LinkButton"
 
 export default function Home() {
   return (
@@ -7,15 +7,28 @@ export default function Home() {
         <h2 className="text-4xl font-bold text-center sm:text-left text-gray-200 tracking-tight">
           Welcome to My ToDo List
         </h2>
-        <p className="text-lg text-gray-500 text-center sm:text-left">
+        <p className="text-lg text-gray-400 text-center sm:text-left">
           This is a simple todo list app built with Next.js and Node.js.
         </p>
 
         <div className="flex flex-row items-center sm:items-start gap-4 w-full justify-center">
-          <Button className="bg-blue-600 text-white hover:bg-blue-700">
-            Get Started
-          </Button>
-          <Button>Learn More</Button>
+          <LinkButton
+            href="/createdtask"
+            className="bg-blue-600 text-white hover:bg-blue-700"
+          >
+            <span>Create a new task</span>
+          </LinkButton>
+
+          <LinkButton
+            href="/todolist"
+            className="bg-blue-600 text-white hover:bg-blue-700"
+          >
+            <span>Task List</span>
+          </LinkButton>
+
+          <LinkButton>
+            <span>Learn More</span>
+          </LinkButton>
         </div>
       </section>
     </main>
