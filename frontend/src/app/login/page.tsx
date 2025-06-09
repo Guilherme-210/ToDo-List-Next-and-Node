@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useState } from "react"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import SectionHeader from "@/components/SectionHeader"
 import InputLabel from "@/components/InputLabel"
+import TodoListLogin from "./images/TodoListLogin.png"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(true)
@@ -93,6 +95,14 @@ export default function LoginPage() {
           </form>
         </div>
       </SectionHeader>
+
+      <img
+        src={TodoListLogin}
+        alt="Login Illustration"
+        width={100}
+        height={100}
+        // className="w-full h-auto object-cover"
+      />
     </main>
   )
 }
