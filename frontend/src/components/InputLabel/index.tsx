@@ -2,10 +2,10 @@ export default function InputLabel({
   isLabel = true,
   label,
   type = "text",
-  placeholder = "",
-  ClassNameDiv = "",
-  ClassNameLabel = "",
-  ClassNameInput = "",
+  placeholder,
+  ClassNameDiv,
+  ClassNameLabel,
+  ClassNameInput,
 }: Readonly<{
   isLabel?: boolean
   label: string
@@ -16,7 +16,7 @@ export default function InputLabel({
   ClassNameInput?: string
 }>) {
   return (
-    <div className={`flex flex-col ${ClassNameDiv}`}>
+    <div className={`flex flex-col w-full ${ClassNameDiv}`}>
       {isLabel && (
         <label className={`text-sky-300 mb-2 ${ClassNameLabel}`}>{label}</label>
       )}
@@ -24,7 +24,7 @@ export default function InputLabel({
       <input
         type={type}
         placeholder={placeholder}
-        className={`p-2 rounded text-sky-200 focus:outline-none border-2 border-gray-700 focus:border-blue-400 hover:border-blue-300 transition ${ClassNameInput}`}
+        className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors ${ClassNameInput}`}
       />
     </div>
   )

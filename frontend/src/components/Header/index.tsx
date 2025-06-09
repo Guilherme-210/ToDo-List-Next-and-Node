@@ -8,6 +8,9 @@ export default function Header() {
         <nav>
           <ul className="flex space-x-4">
             <li>
+              <Link href="/login">Logar</Link>
+            </li>
+            <li>
               <Link href="/">Home</Link>
             </li>
             <li>
