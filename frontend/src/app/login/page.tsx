@@ -1,18 +1,23 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useState } from "react"
-import { Eye, EyeOff, Mail, Lock } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, LayoutList } from "lucide-react"
 import SectionHeader from "@/components/SectionHeader"
 import InputLabel from "@/components/InputLabel"
 import TodoListLogin from "./images/TodoListLogin.png"
+import Image from "next/image"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(true)
 
   return (
-    <main className="grid grid-cols-2 max-md:grid-cols-1 gap-6 justify-center p-8 pb-20 min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <SectionHeader Title="Login to My ToDo List" ariaLabel="Login area">
+    <main className="grid grid-cols-2 max-md:grid-cols-1 gap-6 justify-center p-0 min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <SectionHeader
+        Title="Login to My ToDo List"
+        classNameSection="!bg-transparent justify-center "
+        classNameTitle="!bg-transparent !justify-center"
+        ariaLabel="Login area"
+      >
         <div className="w-full">
           <p className="text-lg text-gray-400 text-center sm:text-left">
             Please enter your credentials to access your tasks.
@@ -96,13 +101,16 @@ export default function LoginPage() {
         </div>
       </SectionHeader>
 
-      <img
+      <div className="flex flex-col w-full justify-center items-center bg-[#5039a0] ">
+        <LayoutList width={200} height={200} />
+      <Image
         src={TodoListLogin}
         alt="Login Illustration"
-        width={100}
-        height={100}
-        // className="w-full h-auto object-cover"
+        width={200} 
+        height={200}
       />
+      </div>
+
     </main>
   )
 }

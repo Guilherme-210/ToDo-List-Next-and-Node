@@ -2,28 +2,35 @@ export default function SectionHeader({
   Title,
   children,
   ariaLabel,
-  className = "",
+  classNameSection,
+  classNameTitle,
+  classNameContent,
 }: Readonly<{
   Title: string
   children?: React.ReactNode
   ariaLabel?: string
-  className?: string
+  classNameSection?: string
+  classNameTitle?: string
+  classNameContent?: string
 }>) {
-  className = className
-    ? `flex flex-col gap-4  bg-gray-800 text-white rounded-lg shadow-lg ${className}`
-    : "flex flex-col gap-4 w-full bg-gray-800 text-white rounded-lg shadow-lg"
   return (
     <>
       <section
         aria-label={ariaLabel}
-        className={className}
+        className={`flex flex-col gap-4  bg-gray-800 text-white rounded-lg shadow-lg ${classNameSection}`}
       >
-        <div className="flex items-center justify-between w-full bg-gray-700 p-4 rounded-t-lg">
-          <h2 className="text-2xl text-shadow-lg/30 text-shadow-sky-300 font-bold">
+        <div>
+          <h2
+            className={`flex items-center justify-between w-full bg-gray-700 p-4 rounded-t-lg text-2xl text-shadow-lg/30 text-shadow-sky-300 font-bold ${classNameTitle}`}
+          >
             {Title}
           </h2>
         </div>
-        <div className="flex flex-col gap-4 px-6 pb-6 w-full">{children}</div>
+        <div
+          className={`flex flex-col gap-4 px-6 pb-6 w-full ${classNameContent}`}
+        >
+          {children}
+        </div>
       </section>
     </>
   )
