@@ -5,7 +5,7 @@ export default function FormTodo({ className }: Readonly<{ className?: string }>
   return (
     <>
       <SectionHeader
-        className={className}
+        classNameSection={className}
         Title="Add Task"
         ariaLabel="Formulário de tarefas"
       >
