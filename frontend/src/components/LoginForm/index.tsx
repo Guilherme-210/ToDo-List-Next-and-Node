@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import InputLabel from "@/components/InputLabel"
+import Link from "next/link"
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(true)
@@ -70,12 +71,15 @@ export default function LoginForm() {
         </div>
       </div>
 
-      <button
-        type="button"
-        className="w-full text-purple-600 hover:bg-purple-50 font-semibold py-3 px-4 rounded-lg transition-colors duration-200 uppercase tracking-wide"
-      >
-        CREATE ACCOUNT
-      </button>
+      <div className="flex w-full items-center justify-center ">
+        <Link
+          href="/auth/signup"
+          aria-label="Create a new account"
+          className="text-purple-600 hover:bg-purple-50 font-semibold py-3 px-4 rounded-lg transition-colors duration-200 uppercase tracking-wide"
+        >
+          CREATE ACCOUNT
+        </Link>
+      </div>
     </form>
   )
 }
