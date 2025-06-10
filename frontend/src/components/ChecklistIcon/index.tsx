@@ -1,22 +1,27 @@
-/* eslint-disable @next/next/no-img-element */
-// components/ChecklistIcon.tsx
 // import Image from "next/image"
 
+import { User } from "lucide-react"
+
 export default function ChecklistIcon({
-  Width = 150,
-  Height = 150,
+  width = 150,
+  height = 150,
 }: {
-  Width?: number
-  Height?: number
+  width?: number
+  height?: number
 }) {
   return (
     <div className="flex flex-col items-center gap-2 hover:scale-105 transition-transform">
-      <img
+      <User
+        className="text-purple-600 dark:text-purple-400"
+        width={width}
+        height={height}
+      />
+      {/* <img
         src="/images/checklist-icon.png"
         alt="Ícone de checklist"
-        width={Width}
-        height={Height}
-      />
+        width={width}
+        height={height}
+      /> */}
     </div>
   )
 }
