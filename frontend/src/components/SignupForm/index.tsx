@@ -37,23 +37,37 @@ export default function SignupForm() {
       />
       <DateInput
         value={formData.birthDate}
-        onChange={(value) => setFormData((prev) => ({ ...prev, birthDate: value }))}
+        onChange={(value) =>
+          setFormData((prev) => ({ ...prev, birthDate: value }))
+        }
       />
       <PasswordInput
         value={formData.Password}
-        onChange={(value) => setFormData((prev) => ({ ...prev, Password: value }))}
+        onChange={(value) =>
+          setFormData((prev) => ({ ...prev, Password: value }))
+        }
       />
 
-      <div className="text-right">
-        <a
-          href="#"
-          className="text-purple-600 hover:text-purple-700 text-sm font-medium hover:underline"
+      <div className="text-sm text-gray-500">
+        By creating an account, you agree to our{" "}
+        <Link
+          href="/terms"
+          className="text-purple-600 hover:underline"
+          aria-label="Terms of Service"
         >
-          Forgot Password?
-        </a>
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link
+          href="/privacy"
+          className="text-purple-600 hover:underline"
+          aria-label="Privacy Policy"
+        >
+          Privacy Policy
+        </Link>
       </div>
       <button className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 uppercase tracking-wide">
-        To enter
+        Create Account
       </button>
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
@@ -61,17 +75,17 @@ export default function SignupForm() {
         </div>
         <div className="relative flex justify-center text-sm">
           <p className="px-2 bg-white text-gray-500">
-            {`Don't have an account yet?`}
+            Already have an account?
           </p>
         </div>
       </div>
       <div className="flex w-full items-center justify-center ">
         <Link
-          href="/auth/signup"
-          aria-label="Create a new account"
+          href="/auth/login"
+          aria-label="Log in to your account"
           className="text-purple-600 hover:bg-purple-50 font-semibold py-3 px-4 rounded-lg transition-colors duration-200 uppercase tracking-wide"
         >
-          CREATE ACCOUNT
+          Log In
         </Link>
       </div>
     </form>

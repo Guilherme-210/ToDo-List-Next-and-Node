@@ -82,7 +82,7 @@ export default function DateInput({
             onChange={handleDateChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            placeholder={showPlaceholder ? "DD/MM/AAAA" : ""}
+            placeholder={showPlaceholder ? "Date of birth" : ""}
             maxLength={10}
             className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors ${
               error || (!isValid && date.length === 10) ? "border-red-500" : ""
@@ -94,7 +94,7 @@ export default function DateInput({
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
 
       {!isValid && date.length === 10 && !error && (
-        <p className="text-red-500 text-sm mt-1">Data inválida</p>
+        <p className="text-red-500 text-sm mt-1">Invalid date</p>
       )}
     </div>
   )

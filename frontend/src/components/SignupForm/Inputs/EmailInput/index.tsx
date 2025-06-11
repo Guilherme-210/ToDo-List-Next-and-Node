@@ -46,7 +46,7 @@ export default function EmailInput({
             type="email"
             value={email}
             onChange={handleEmailChange}
-            placeholder="seu@email.com"
+            placeholder="your.email@email.com"
             className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors ${
               error || (!isValid && email.length > 0) ? "border-red-500" : ""
             }`}
@@ -57,7 +57,7 @@ export default function EmailInput({
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
 
       {!isValid && email.length > 0 && !error && (
-        <p className="text-red-500 text-sm mt-1">E-mail inválido</p>
+        <p className="text-red-500 text-sm mt-1">Invalid email</p>
       )}
     </div>
   )

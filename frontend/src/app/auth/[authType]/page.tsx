@@ -28,12 +28,7 @@ export default function AuthPage() {
         classNameTitle="!bg-transparent !justify-center"
         ariaLabel="Login area"
       >
-        <div className="w-full">
-          {renderForm()}
-          <p className="text-lg text-gray-400 text-center sm:text-left">
-            Please enter your credentials to access your tasks.
-          </p>
-        </div>
+        {renderForm()}
       </SectionHeader>
       <LoginAside className="max-md:absolute max-md:inset-0 max-md:z-0 max-md:!bg-transparent" />
     </main>
