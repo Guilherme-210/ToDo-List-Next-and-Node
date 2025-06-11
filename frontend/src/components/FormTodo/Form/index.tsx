@@ -110,7 +110,9 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
           >
             {isSubmitting ? "Adding..." : "Add Task"}
           </Button>
-          <Button>Clear</Button>
+          <Button type="button" onClick={() => resetForm()}>
+            Clear
+          </Button>
         </div>
       </form>
     </>

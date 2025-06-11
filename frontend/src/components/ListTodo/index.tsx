@@ -5,7 +5,7 @@ export default function ListTodo({ reloadList }: { reloadList: boolean }) {
   return (
     <>
       <SectionHeader
-        classNameSection="w-full !bg-transparent justify-center max-md:relative max-md:z-10 !px-0"
+        classNameSection="justify-center max-md:relative max-md:z-10 !px-0 flex flex-col !bg-[#5039a0] h-full w-full !rounded-none"
         classNameTitle="!bg-transparent !justify-center"
         Title="Task list"
         ariaLabel="Lista de tarefas"
