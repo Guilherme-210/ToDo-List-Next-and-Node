@@ -1,3 +1,5 @@
+"use client"
+
 import FormTodo from "@/components/FormTodo"
 
 export default function CreatedTask() {

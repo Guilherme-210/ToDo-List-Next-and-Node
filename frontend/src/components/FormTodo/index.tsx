@@ -1,3 +1,5 @@
+"use client"
+
 import SectionHeader from "../SectionHeader"
 import Form from "./Form"
 
