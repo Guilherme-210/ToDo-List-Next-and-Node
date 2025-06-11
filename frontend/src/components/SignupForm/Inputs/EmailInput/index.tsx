@@ -2,12 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Mail } from "lucide-react"
-
-interface EmailInputProps {
-  value?: string
-  onChange?: (value: string) => void
-  error?: string
-}
+import { EmailInputProps } from "@/interface/InputsSignup"
+import { validateEmail } from "@/utils/EmailInput"
 
 export default function EmailInput({
   value = "",
@@ -16,22 +12,15 @@ export default function EmailInput({
 }: EmailInputProps) {
   const [email, setEmail] = useState(value)
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
+  useEffect(() => {
+    setEmail((prevEmail) => (value !== prevEmail ? value : prevEmail))
+  }, [value])
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value
     setEmail(newEmail)
     onChange?.(newEmail)
   }
-
-  useEffect(() => {
-    if (value !== email) {
-      setEmail(value)
-    }
-  }, [value])
 
   const isValid = email.length === 0 || validateEmail(email)
 

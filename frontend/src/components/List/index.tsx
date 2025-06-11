@@ -14,14 +14,12 @@ export default function List() {
             Below are your created task. Mark as completed or delete.
           </p>
 
-
-
           <ul className="flex flex-col gap-2 w-full overflow-y-auto max-h-[calc(100vh-200px)]">
             <li className="bg-gray-700 text-black p-4 rounded shadow flex flex-col hover:bg-gray-400 gap-2">
               <div className="flex justify-between items-center gap-4">
                 <h3 className="text-lg font-semibold">Task title 1</h3>
 
-                <div className="flex items-center gap-2 flex flex-col ">
+                <div className="flex items-center gap-2 flex-col ">
                   <span className="text-sm text-black">Add: 2025-01-01</span>
                   <span className="text-sm text-black">
                     delivery: 2025-01-10
@@ -44,7 +42,7 @@ export default function List() {
               <div className="flex justify-between items-center gap-4">
                 <h3 className="text-lg font-semibold">Task title 1</h3>
 
-                <div className="flex items-center gap-2 flex flex-col ">
+                <div className="flex items-center gap-2  flex-col ">
                   <span className="text-sm text-black">Add: 2025-01-01</span>
                   <span className="text-sm text-black">
                     delivery: 2025-01-10
@@ -67,7 +65,7 @@ export default function List() {
               <div className="flex justify-between items-center gap-4">
                 <h3 className="text-lg font-semibold">Task title 1</h3>
 
-                <div className="flex items-center gap-2 flex flex-col ">
+                <div className="flex items-center gap-2 flex-col ">
                   <span className="text-sm text-black">Add: 2025-01-01</span>
                   <span className="text-sm text-black">
                     delivery: 2025-01-10
@@ -90,7 +88,7 @@ export default function List() {
               <div className="flex justify-between items-center gap-4">
                 <h3 className="text-lg font-semibold">Task title 1</h3>
 
-                <div className="flex items-center gap-2 flex flex-col ">
+                <div className="flex items-center gap-2 flex-col ">
                   <span className="text-sm text-black">Add: 2025-01-01</span>
                   <span className="text-sm text-black">
                     delivery: 2025-01-10

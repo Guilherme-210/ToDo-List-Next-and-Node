@@ -2,13 +2,7 @@
 
 import { useState } from "react"
 import { User } from "lucide-react"
-
-interface NameInputProps {
-  value: string
-  onChange: (value: string) => void
-  error?: string
-  placeholder?: string
-}
+import { NameInputProps } from "@/interface/InputsSignup"
 
 export default function NameInput({
   value,

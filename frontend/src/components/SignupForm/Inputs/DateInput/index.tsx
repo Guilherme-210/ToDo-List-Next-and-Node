@@ -2,12 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Calendar } from "lucide-react"
-
-interface DateInputProps {
-  value?: string
-  onChange?: (value: string) => void
-  error?: string
-}
+import { DateInputProps } from "@/interface/InputsSignup"
+import { formatDate, validateDate } from "@/utils/DateInput"
 
 export default function DateInput({
   value = "",
@@ -17,43 +13,6 @@ export default function DateInput({
   const [date, setDate] = useState(value)
   const [isFocused, setIsFocused] = useState(false)
 
-  const formatDate = (input: string) => {
-    const numbers = input.replace(/\D/g, "")
-
-    if (numbers.length <= 2) return numbers
-    if (numbers.length <= 4) return `${numbers.slice(0, 2)}/${numbers.slice(2)}`
-    return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(
-      4,
-      8
-    )}`
-  }
-
-  const validateDate = (dateString: string) => {
-    if (dateString.length !== 10) return false
-
-    const [day, month, year] = dateString.split("/").map(Number)
-    const date = new Date(year, month - 1, day)
-    const today = new Date()
-
-    // Check if date is valid
-    if (
-      date.getDate() !== day ||
-      date.getMonth() !== month - 1 ||
-      date.getFullYear() !== year
-    ) {
-      return false
-    }
-
-    // Check if date is not in the future
-    if (date > today) return false
-
-    // Check if person is not too old (reasonable age limit)
-    const age = today.getFullYear() - year
-    if (age > 120) return false
-
-    return true
-  }
-
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatDate(e.target.value)
     setDate(formatted)
@@ -61,9 +20,7 @@ export default function DateInput({
   }
 
   useEffect(() => {
-    if (value !== date) {
-      setDate(value)
-    }
+    setDate((prevDate) => (value !== prevDate ? value : prevDate))
   }, [value])
 
   const isValid = date.length === 0 || date.length < 10 || validateDate(date)

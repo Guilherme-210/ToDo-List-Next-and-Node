@@ -2,19 +2,15 @@
 
 import { useState, useEffect } from "react"
 import { Eye, EyeOff, Lock } from "lucide-react"
-
-interface PasswordInputProps {
-  value?: string
-  onChange?: (value: string) => void
-  error?: string
-}
+import { PasswordInputProps } from "@/interface/InputsSignup"
+import { validatePassword } from "@/utils/PasswordInput" // importa o validador
 
 export default function PasswordInput({
   value = "",
   onChange,
   error,
 }: PasswordInputProps) {
-  const [password, setPassword] = useState(value)
+  const [password, setPassword] = useState(value ?? "")
   const [showPassword, setShowPassword] = useState(false)
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,10 +20,12 @@ export default function PasswordInput({
   }
 
   useEffect(() => {
-    if (value !== password) {
-      setPassword(value)
-    }
+    setPassword((prevPassword) =>
+      (value ?? "") !== prevPassword ? value ?? "" : prevPassword
+    )
   }, [value])
+
+  const isValid = password.length === 0 || validatePassword(password)
 
   return (
     <div>
@@ -62,8 +60,12 @@ export default function PasswordInput({
         </button>
       </div>
 
-      {/* Mensagem de erro (se tiver) */}
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      {!isValid && password.length > 0 && !error && (
+        <p className="text-red-500 text-sm mt-1">
+          A senha precisa ter no mínimo 8 caracteres, com letras maiúsculas,
+          minúsculas, números e símbolos.
+        </p>
+      )}
     </div>
   )
 }

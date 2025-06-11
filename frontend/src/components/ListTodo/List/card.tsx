@@ -1,16 +1,12 @@
 import Button from "@/components/Button"
+import { CardProps } from "./interface"
 
 export default function Card({
   title,
   description,
   addDate,
   deliveryDate,
-}: Readonly<{
-  title: string
-  description: string
-  addDate: string
-  deliveryDate: string
-}>) {
+}: CardProps) {
   return (
     <>
       <li className="
@@ -19,7 +15,7 @@ export default function Card({
         <div className="flex justify-between items-center gap-4">
           <h3 className="text-lg font-semibold">{title}</h3>
 
-          <div className="flex items-center gap-2 flex flex-col ">
+          <div className="flex items-center gap-2 flex-col ">
             <span className="text-sm text-black">Add: {addDate}</span>
             <span className="text-sm text-black">delivery: {deliveryDate}</span>
           </div>

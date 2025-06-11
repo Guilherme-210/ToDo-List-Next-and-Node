@@ -1,3 +1,5 @@
+import { TextareaLabelProps } from "@/interface/TextareaLabel"
+
 export default function TextareaLabel({
   isLabel = true,
   label,
@@ -5,14 +7,7 @@ export default function TextareaLabel({
   ClassNameDiv = "",
   ClassNameLabel = "",
   ClassNameTextarea = "",
-}: Readonly<{
-  isLabel?: boolean
-  label: string
-  placeholder?: string
-  ClassNameDiv?: string
-  ClassNameLabel?: string
-  ClassNameTextarea?: string
-}>) {
+}: TextareaLabelProps ) {
   return (
     <div className={`flex flex-col ${ClassNameDiv}`}>
       {isLabel && (

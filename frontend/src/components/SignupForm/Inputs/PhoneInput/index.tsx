@@ -5,12 +5,7 @@ import { Phone, ChevronDown } from "lucide-react"
 import { countries, CountryCode } from "../../../../const/PhoneInput"
 import { formatPhone } from "@/utils/PhoneInput"
 import CountryDropdown from "./CountryDropdown"
-
-interface PhoneInputProps {
-  value?: string
-  onChange?: (value: string) => void
-  error?: string
-}
+import { PhoneInputProps } from "@/interface/InputsSignup"
 
 export default function PhoneInput({
   value = "",
@@ -59,9 +54,7 @@ export default function PhoneInput({
             </button>
 
             {isDropdownOpen && (
-              <CountryDropdown
-                onSelect={handleCountryChange}
-              />
+              <CountryDropdown onSelect={handleCountryChange} />
             )}
           </div>
 

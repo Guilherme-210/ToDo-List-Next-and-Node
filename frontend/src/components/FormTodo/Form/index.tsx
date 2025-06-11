@@ -21,7 +21,7 @@ export default function FormTodo() {
           placeholder="Task description"
         />
 
-        <div className="flex flex-rol sm:flex-row gap-4 w-full w-full sm:justify-between">
+        <div className="flex flex-rol sm:flex-row gap-4 w-full sm:justify-between">
           <Button
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"

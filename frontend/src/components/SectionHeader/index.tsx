@@ -1,3 +1,5 @@
+import { SectionHeaderProps } from "@/interface/SectionHeader";
+
 export default function SectionHeader({
   Title,
   children,
@@ -5,14 +7,7 @@ export default function SectionHeader({
   classNameSection,
   classNameTitle,
   classNameContent,
-}: Readonly<{
-  Title: string
-  children?: React.ReactNode
-  ariaLabel?: string
-  classNameSection?: string
-  classNameTitle?: string
-  classNameContent?: string
-}>) {
+}: SectionHeaderProps) {
   return (
     <>
       <section

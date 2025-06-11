@@ -1,3 +1,6 @@
+import { InputLabelProps } from "./interface";
+
+
 export default function InputLabel({
   isLabel = true,
   label,
@@ -6,15 +9,7 @@ export default function InputLabel({
   ClassNameDiv,
   ClassNameLabel,
   ClassNameInput,
-}: Readonly<{
-  isLabel?: boolean
-  label: string
-  type?: string
-  placeholder?: string
-  ClassNameDiv?: string
-  ClassNameLabel?: string
-  ClassNameInput?: string
-}>) {
+}: InputLabelProps) {
   return (
     <div className={`flex flex-col w-full ${ClassNameDiv}`}>
       {isLabel && (
