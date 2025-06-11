@@ -1,23 +1,47 @@
 import Button from "@/components/Button"
 import { CardProps } from "./interface"
 
-export default function Card({
-  title,
-  description,
-  addDate,
-  deliveryDate,
-}: CardProps) {
+export default function Card({ todo }: CardProps) {
+  const {
+    idCode,
+    title,
+    description,
+    createdAt,
+    deliveryDate,
+    status,
+  } = todo
+
+  const formattedCreatedAt = new Date(createdAt).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+
+  const formattedDeliveryDate = new Date(deliveryDate).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+  
   return (
     <>
-      <li className="
+      <li
+        id={idCode}
+        className="
       bg-gray-700 
-      m-3 text-black p-4 rounded shadow flex flex-col hover:bg-gray-400 gap-2 outline-offset-2 outline-2 outline-gray-500 hover:outline-gray-300 ">
+      m-3 text-black p-4 rounded shadow flex flex-col hover:bg-gray-400 gap-2 outline-offset-2 outline-2 outline-gray-500 hover:outline-gray-300 "
+      >
         <div className="flex justify-between items-center gap-4">
           <h3 className="text-lg font-semibold">{title}</h3>
 
           <div className="flex items-center gap-2 flex-col ">
-            <span className="text-sm text-black">Add: {addDate}</span>
-            <span className="text-sm text-black">delivery: {deliveryDate}</span>
+            <span className="text-sm text-black">
+              Add: {formattedCreatedAt}
+            </span>
+            <span className="text-sm text-black">
+              delivery: {formattedDeliveryDate}
+            </span>
+            <span className="text-sm text-black">{status}</span>
           </div>
         </div>
 

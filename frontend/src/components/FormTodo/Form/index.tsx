@@ -5,7 +5,7 @@ import Button from "../../Button"
 import InputLabel from "../../InputLabel"
 import TextareaLabel from "../../TextareaLabel"
 
-export default function Form() {
+export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
   const [title, setTitle] = useState("")
   const [deliveryDate, setDeliveryDate] = useState("")
   const [description, setDescription] = useState("")
@@ -29,7 +29,7 @@ export default function Form() {
 
     const now = new Date()
     const today = new Date()
-    today.setHours(0, 0, 0, 0) 
+    today.setHours(0, 0, 0, 0)
 
     const newTask = {
       idCode: Date.now().toString(),
@@ -56,6 +56,7 @@ export default function Form() {
         const data = await res.json()
         // alert("Tarefa adicionada com sucesso!")
         resetForm()
+        onTaskCreated()
         console.log("Task created:", data)
       } else {
         const errorData = await res.json()
@@ -69,7 +70,7 @@ export default function Form() {
       setIsSubmitting(false)
     }
 
-    console.log("Form submitted:", { title, deliveryDate, description })
+    console.log(`Form submitted: ${newTask}`)
   }
 
   return (
