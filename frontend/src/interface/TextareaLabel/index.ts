@@ -5,4 +5,6 @@ export interface TextareaLabelProps {
   ClassNameDiv?: string
   ClassNameLabel?: string
   ClassNameTextarea?: string
+  value?: string
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 }

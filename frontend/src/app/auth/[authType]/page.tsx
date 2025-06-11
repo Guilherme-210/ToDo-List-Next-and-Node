@@ -21,7 +21,7 @@ export default function AuthPage() {
   }
 
   return (
-    <main className="grid grid-cols-2 max-md:grid-cols-1  gap-6 justify-center p-0 min-h-screen font-[family-name:var(--font-geist-sans)]">
+    <main className="grid grid-cols-2 max-md:grid-cols-1 gap-6 justify-center p-0 min-h-screen font-[family-name:var(--font-geist-sans)]">
       <SectionHeader
         Title={"Login to ToDo List"}
         classNameSection="!bg-transparent justify-center max-md:relative max-md:z-10"

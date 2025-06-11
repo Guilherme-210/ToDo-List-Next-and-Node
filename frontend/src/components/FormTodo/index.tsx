@@ -1,11 +1,12 @@
 import SectionHeader from "../SectionHeader"
 import Form from "./Form"
 
-export default function FormTodo({ className }: Readonly<{ className?: string }>) {
+export default function FormTodo() {
   return (
     <>
       <SectionHeader
-        classNameSection={className}
+        classNameSection="w-full !bg-transparent justify-center max-md:relative max-md:z-10"
+        classNameTitle="!bg-transparent !justify-center"
         Title="Add Task"
         ariaLabel="Formulário de tarefas"
       >

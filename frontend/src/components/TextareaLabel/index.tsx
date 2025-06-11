@@ -7,16 +7,21 @@ export default function TextareaLabel({
   ClassNameDiv = "",
   ClassNameLabel = "",
   ClassNameTextarea = "",
+  value,
+  onChange,
 }: TextareaLabelProps ) {
   return (
     <div className={`flex flex-col ${ClassNameDiv}`}>
       {isLabel && (
-        <label className={`text-sky-300 mb-2 ${ClassNameLabel}`}>{label}</label>
+        <label className={`text-sky-100 mb-1 ${ClassNameLabel}`}>{label}</label>
       )}
 
       <textarea
         placeholder={placeholder}
-        className={`p-2 rounded text-sky-200 focus:outline-none border-2 border-gray-700 focus:border-blue-400 hover:border-blue-300 transition ${ClassNameTextarea}`}
+        className={`p-2 rounded focus:outline-none border-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition ${ClassNameTextarea}`}
+        value={value}
+        onChange={onChange}
+        rows={2}
       />
     </div>
   )

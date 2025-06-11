@@ -5,7 +5,8 @@ export default function ListTodo() {
   return (
     <>
       <SectionHeader
-        classNameSection="xl:col-start-2 xl:col-end-4"
+        classNameSection="w-full !bg-transparent justify-center max-md:relative max-md:z-10"
+        classNameTitle="!bg-transparent !justify-center"
         Title="Task list"
         ariaLabel="Lista de tarefas"
       >
