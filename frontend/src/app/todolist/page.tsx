@@ -13,7 +13,10 @@ export default function TodoList() {
       <FormTodo onTaskCreated={() => setReloadList((prev) => !prev)} />
 
       {/* Lista de Tarefas */}
-      <ListTodo reloadList={reloadList} />
+      <ListTodo
+        reloadList={reloadList}
+        setReloadList={() => setReloadList((prev) => !prev)}
+      />
     </main>
   )
 }

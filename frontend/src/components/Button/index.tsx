@@ -1,7 +1,7 @@
 export default function Button({
   children,
   className = "",
-  onClick,
+  onClick = () => {},
   type,
   disabled = false,
 }: Readonly<{

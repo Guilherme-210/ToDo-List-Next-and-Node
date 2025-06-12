@@ -1,15 +1,8 @@
 import Button from "@/components/Button"
 import { CardProps } from "./interface"
 
-export default function Card({ todo }: CardProps) {
-  const {
-    idCode,
-    title,
-    description,
-    createdAt,
-    deliveryDate,
-    status,
-  } = todo
+export default function Card({ todo, deleteTask }: CardProps) {
+  const { idCode, title, description, createdAt, deliveryDate, status, id } = todo
 
   const formattedCreatedAt = new Date(createdAt).toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -17,12 +10,15 @@ export default function Card({ todo }: CardProps) {
     year: "numeric",
   })
 
-  const formattedDeliveryDate = new Date(deliveryDate).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  })
-  
+  const formattedDeliveryDate = new Date(deliveryDate).toLocaleDateString(
+    "pt-BR",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }
+  )
+
   return (
     <>
       <li
@@ -51,7 +47,10 @@ export default function Card({ todo }: CardProps) {
           <Button className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded">
             Mark as completed
           </Button>
-          <Button className="bg-red-500 text-white hover:bg-red-600 transition px-3 py-1 rounded">
+          <Button
+            className="bg-red-500 text-white hover:bg-red-600 transition px-3 py-1 rounded"
+            onClick={() => deleteTask(id)}
+          >
             Delete
           </Button>
         </div>
