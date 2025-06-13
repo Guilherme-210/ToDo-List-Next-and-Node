@@ -18,7 +18,7 @@ export default function TextareaLabel({
 
       <textarea
         placeholder={placeholder}
-        className={`p-2 rounded focus:outline-none border-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition ${ClassNameTextarea}`}
+        className={`p-2 rounded focus:outline-none border-2 bg-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition ${ClassNameTextarea}`}
         value={value}
         onChange={onChange}
         rows={2}

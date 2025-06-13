@@ -21,7 +21,7 @@ export default function InputDelivery({
         <div>
           <label
             htmlFor="checkTime"
-            className="cursor-pointer flex items-center text-sm text-gray-600"
+            className="cursor-pointer flex items-center text-sm text-sky-100"
           >
             <input
               type="checkbox"
@@ -29,7 +29,7 @@ export default function InputDelivery({
               id="checkTime"
               checked={hasDeliveryTime}
               onChange={(e) => onToggleDeliveryTime(e.target.checked)}
-              className="mr-2 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="mr-2 rounded border-gray-300 bg-gray-600 text-blue-600 focus:ring-blue-500"
             />
             Incluir horário
           </label>
@@ -38,7 +38,7 @@ export default function InputDelivery({
 
       <input
         type={deliveryType}
-        className={`w-full pl-2 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors ${ClassNameInput}`}
+        className={`w-full pl-2 pr-4 py-3 border rounded-lg bg-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:border-purple-500 outline-none transition-colors ${ClassNameInput}`}
         value={value}
         onChange={onChange}
       />
