@@ -30,7 +30,6 @@ export default function List({
 
       if (!res.ok) throw new Error("Falha ao deletar")
 
-      alert("Tarefa deletada com sucesso!")
       setReloadList()
     } catch (err) {
       console.error(err)
@@ -54,9 +53,16 @@ export default function List({
     <ul
       className={`flex flex-col gap-2 w-full overflow-y-auto max-h-[calc(100vh-200px)] ${className}`}
     >
-      {tasks.map((todo, index) => (
-        <Card key={index} todo={todo} deleteTask={deleteTask} />
-      ))}
+      {tasks.map((todo, index) => {
+                return (
+                  <Card
+                    key={index}
+                    todo={todo}
+                    deleteTask={deleteTask}
+                    setReloadList={setReloadList}
+                  />
+                )
+      })}
     </ul>
   )
 }

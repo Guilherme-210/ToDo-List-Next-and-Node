@@ -1,6 +1,7 @@
 export interface CardProps {
   todo: Task
   deleteTask: (idCode: string) => void
+  setReloadList: () => void
 }
 export interface Task {
   idCode: string
@@ -8,7 +9,7 @@ export interface Task {
   description: string
   createdAt: string
   deliveryDate: string
-  status: string
+  status: "Pending" | "Due" | "Completed"
   updatedAt: string
   id: string
 }

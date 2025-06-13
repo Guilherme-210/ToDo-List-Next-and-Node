@@ -1,8 +1,10 @@
 import Button from "@/components/Button"
 import { CardProps } from "./interface"
+import { PenLine, Square, SquareCheck, Trash } from "lucide-react"
 
-export default function Card({ todo, deleteTask }: CardProps) {
-  const { idCode, title, description, createdAt, deliveryDate, status, id } = todo
+export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
+  const { idCode, title, description, createdAt, deliveryDate, status, id } =
+    todo
 
   const formattedCreatedAt = new Date(createdAt).toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -19,42 +21,100 @@ export default function Card({ todo, deleteTask }: CardProps) {
     }
   )
 
-  return (
-    <>
-      <li
-        id={idCode}
-        className="
-      bg-gray-700 
-      m-3 text-black p-4 rounded shadow flex flex-col hover:bg-gray-400 gap-2 outline-offset-2 outline-2 outline-gray-500 hover:outline-gray-300 "
-      >
-        <div className="flex justify-between items-center gap-4">
-          <h3 className="text-lg font-semibold">{title}</h3>
+  let statusTextColor, statusBgColor, statusHoverBgColor
 
-          <div className="flex items-center gap-2 flex-col ">
-            <span className="text-sm text-black">
-              Add: {formattedCreatedAt}
-            </span>
-            <span className="text-sm text-black">
-              delivery: {formattedDeliveryDate}
-            </span>
-            <span className="text-sm text-black">{status}</span>
+  switch (status) {
+    case "Pending":
+      statusTextColor = "text-yellow-500"
+      statusBgColor = "bg-gray-500"
+      statusHoverBgColor = "hover:bg-gray-700"
+      break
+    case "Due":
+      statusTextColor = "text-red-500"
+      statusBgColor = "bg-red-500"
+      statusHoverBgColor = "hover:bg-red-600"
+      break
+    case "Completed":
+      statusTextColor = "text-green-500"
+      statusBgColor = "bg-green-500"
+      statusHoverBgColor = "hover:bg-green-600"
+      break
+    default:
+      statusTextColor = "text-gray-500"
+      statusBgColor = "bg-gray-500"
+      statusHoverBgColor = "hover:bg-gray-700"
+  }
+
+  const toggleStatus = async () => {
+    const newStatus = status === "Completed" ? "Pending" : "Completed"
+
+    try {
+      const res = await fetch(
+        `https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        }
+      )
+
+      if (!res.ok) throw new Error("Erro ao atualizar status")
+
+      setReloadList() // Força recarregar a lista
+    } catch (err) {
+      console.error(err)
+      alert("Erro ao mudar o status da tarefa.")
+    }
+  }
+
+    return (
+      <>
+        <li
+          id={idCode}
+          className="bg-gray-700 m-3 text-black p-4 rounded shadow hover:bg-gray-600 outline-offset-2 outline-2 outline-gray-500 :outline-gray-300 grid gap-2 grid-rows-1 sm:grid-rows-2"
+        >
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+            {/* Coluna 1: Título */}
+            <div className="col-span-2">
+              <h3 className="text-lg font-semibold">{title}</h3>
+              <p className="mt-2 text-black">{description}</p>
+            </div>
+
+            {/* Coluna 2: Datas e Status */}
+            <div className="col-span-1 flex flex-col gap-1 text-sm text-black">
+              <span>
+                <strong>Add:</strong> {formattedCreatedAt}
+              </span>
+              <span>
+                <strong>Delivery:</strong> {formattedDeliveryDate}
+              </span>
+              <span className={`${statusTextColor}`}>
+                <strong>Status:</strong> {status}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <p className="text-black ">{description}</p>
-
-        <div className="flex flex-col sm:flex-row gap-4 w-full sm:justify-between">
-          <Button className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded">
-            Mark as completed
-          </Button>
-          <Button
-            className="bg-red-500 text-white hover:bg-red-600 transition px-3 py-1 rounded"
-            onClick={() => deleteTask(id)}
-          >
-            Delete
-          </Button>
-        </div>
-      </li>
-    </>
-  )
+          {/* Coluna 3: Botões */}
+          <div className="col-span-1 flex flex-col sm:flex-row gap-4 sm:justify-end items-start sm:items-center">
+            <Button
+              className={`${statusBgColor} text-white ${statusHoverBgColor} transition px-3 py-1 rounded`}
+              onClick={toggleStatus}
+            >
+              {status === "Completed" ? <SquareCheck /> : <Square />}
+            </Button>
+            <Button className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded">
+              <PenLine />
+            </Button>
+            <Button
+              className="bg-red-500 text-white hover:bg-red-600 transition px-3 py-1 rounded "
+              onClick={() => deleteTask(id)}
+            >
+              <Trash />
+            </Button>
+          </div>
+        </li>
+      </>
+    )
 }

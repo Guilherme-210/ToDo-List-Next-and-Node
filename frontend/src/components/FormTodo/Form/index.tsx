@@ -35,7 +35,7 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
       idCode: Date.now().toString(),
       createdAt: today.toISOString(),
       updatedAt: now.toISOString(),
-      status: "Pendente",
+      status: "Pending",
 
       title,
       description,
