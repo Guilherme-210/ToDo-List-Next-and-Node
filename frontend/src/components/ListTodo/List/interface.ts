@@ -7,4 +7,6 @@ export interface Task {
   deliveryDate: string
   status: string
   updatedAt: string
+  hasDeliveryTime: string
+  completedAt: string
 }

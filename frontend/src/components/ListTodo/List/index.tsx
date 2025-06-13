@@ -45,16 +45,28 @@ export default function List({
       )
       const data: Task[] = await res.json()
 
-      const today = new Date()
+      const todayWithTime = new Date()
+      const todayNoTime = new Date(todayWithTime)
+      todayNoTime.setHours(0, 0, 0, 0)
 
       const updatedTasks = await Promise.all(
         data.map(async (task) => {
           const deliveryDate = new Date(task.deliveryDate)
-          deliveryDate.setHours(0, 0, 0, 0)
-          today.setHours(0, 0, 0, 0)
-          const now = new Date()
 
-          if (deliveryDate < today && task.status === "Pending") {
+          const compareDate = new Date(deliveryDate)
+
+          if (!task.hasDeliveryTime) {
+            compareDate.setHours(0, 0, 0, 0)
+          }
+
+          const isExpired = task.hasDeliveryTime
+            ? compareDate < todayWithTime
+            : compareDate < todayNoTime
+
+          if (
+            (isExpired && task.status === "Pending") ||
+            task.status === "Up to date"
+          ) {
             try {
               const res = await fetch(
                 `https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List/${task.id}`,
@@ -63,7 +75,6 @@ export default function List({
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
                     status: "Expired",
-                    updatedAt: `Expired: ${now.toISOString()}`,
                   }),
                 }
               )
@@ -90,16 +101,26 @@ export default function List({
     <ul
       className={`flex flex-col gap-2 w-full overflow-y-auto max-h-[calc(100vh-200px)] ${className}`}
     >
-      {tasks.map((todo, index) => {
-        return (
-          <Card
-            key={index}
-            todo={todo}
-            deleteTask={deleteTask}
-            setReloadList={setReloadList}
-          />
-        )
-      })}
+      {tasks.length === 0 ? (
+        <div className="flex flex-col items-center justify-center h-60 text-gray-500">
+          <span className="text-5xl mb-4">📝</span>
+          <p className="text-lg font-semibold">
+            You do not have any registered tasks yet.
+          </p>
+          <p className="text-sm">Add a new task to get started!</p>
+        </div>
+      ) : (
+        tasks.map((todo, index) => {
+          return (
+            <Card
+              key={index}
+              todo={todo}
+              deleteTask={deleteTask}
+              setReloadList={setReloadList}
+            />
+          )
+        })
+      )}
     </ul>
   )
 }

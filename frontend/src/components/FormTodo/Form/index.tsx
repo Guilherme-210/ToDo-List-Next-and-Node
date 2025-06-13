@@ -30,15 +30,18 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
 
     setIsSubmitting(true)
 
+    const createdAt = new Date().toISOString()
+
     const newTask = {
       idCode: Date.now().toString(),
-      createdAt: new Date().toISOString(),
+      createdAt: createdAt,
       updatedAt: new Date().toISOString(),
-      status: "Pending",
       hasDeliveryTime: hasDeliveryTime,
+      completedAt: " ",
+      title: title,
+      description: description,
 
-      title,
-      description,
+      status: deliveryDate <= createdAt ? "Pending" : "up to date" ,
       deliveryDate: hasDeliveryTime
         ? new Date(deliveryDate).toISOString()
         : new Date(`${deliveryDate}T00:00:01`).toISOString(),

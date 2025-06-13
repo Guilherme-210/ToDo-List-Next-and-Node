@@ -9,8 +9,18 @@ export interface CardProps {
 }
 
 export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
-  const { idCode, title, description, createdAt, deliveryDate, status, id } =
-    todo
+  const {
+    idCode,
+    title,
+    description,
+    createdAt,
+    deliveryDate,
+    status,
+    id,
+    hasDeliveryTime,
+    updatedAt,
+    completedAt,
+  } = todo
 
   let statusTextColor, statusBgColor, statusHoverBgColor
 
@@ -26,8 +36,31 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
+      ...(hasDeliveryTime && {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     }
   )
+
+  const formattedCompletedAt = new Date(completedAt).toLocaleDateString(
+    "pt-BR",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  )
+
+  const formattedUpdatedAt = new Date(updatedAt).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
 
   switch (status) {
     case "Pending":
@@ -52,8 +85,18 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
   }
 
   const toggleStatus = async () => {
-    const newStatus = status === "Completed" ? "Pending" : "Completed"
     const now = new Date()
+
+    const toggleStatus =
+      status === "Completed"
+        ? {
+            newStatus: "Pending",
+            completedAt: " ",
+          }
+        : {
+            newStatus: "Completed",
+            completedAt: now.toISOString(),
+          }
 
     try {
       const res = await fetch(
@@ -64,8 +107,8 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            status: newStatus,
-            updatedAt: now.toISOString(),
+            status: toggleStatus.newStatus,
+            completedAt: toggleStatus.completedAt,
           }),
         }
       )
@@ -94,9 +137,19 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
 
           {/* Coluna 2: Datas e Status */}
           <div className="col-span-1 flex flex-col gap-1 text-sm text-black">
-            <span>
-              <strong>Add:</strong> {formattedCreatedAt}
-            </span>
+            {status === "Completed" ? (
+              <span>
+                <strong>completo:</strong> {formattedCompletedAt}
+              </span>
+            ) : updatedAt > createdAt ? (
+              <span>
+                <strong>Edited:</strong> {formattedUpdatedAt}
+              </span>
+            ) : (
+              <span>
+                <strong>Add:</strong> {formattedCreatedAt}
+              </span>
+            )}
             <span>
               <strong>Delivery:</strong> {formattedDeliveryDate}
             </span>
