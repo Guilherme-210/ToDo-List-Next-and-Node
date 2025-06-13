@@ -39,7 +39,7 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
 
       title,
       description,
-      deliveryDate,
+      deliveryDate: new Date(`${deliveryDate}T00:00:01`).toISOString(),
     }
 
     try {
