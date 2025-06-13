@@ -4,17 +4,20 @@ import { useState } from "react"
 import Button from "../../Button"
 import InputLabel from "../../InputLabel"
 import TextareaLabel from "../../TextareaLabel"
+import InputDelivery from "./Inputs/InputDelivery"
 
 export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
   const [title, setTitle] = useState("")
   const [deliveryDate, setDeliveryDate] = useState("")
   const [description, setDescription] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [hasDeliveryTime, setHasDeliveryTime] = useState(false) 
 
   const resetForm = () => {
     setTitle("")
     setDeliveryDate("")
     setDescription("")
+    setHasDeliveryTime(false)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,19 +30,18 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
 
     setIsSubmitting(true)
 
-    const now = new Date()
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
     const newTask = {
       idCode: Date.now().toString(),
-      createdAt: today.toISOString(),
-      updatedAt: now.toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       status: "Pending",
+      hasDeliveryTime: hasDeliveryTime,
 
       title,
       description,
-      deliveryDate: new Date(`${deliveryDate}T00:00:01`).toISOString(),
+      deliveryDate: hasDeliveryTime
+        ? new Date(deliveryDate).toISOString()
+        : new Date(`${deliveryDate}T00:00:01`).toISOString(),
     }
 
     try {
@@ -85,10 +87,17 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <InputLabel
-          label="delivery date"
-          isLabel={true}
-          type="date"
+        <InputDelivery
+          hasDeliveryTime={hasDeliveryTime}
+          onToggleDeliveryTime={(checked) => {
+            setHasDeliveryTime(checked)
+            if (checked && deliveryDate.length === 10) {
+              setDeliveryDate(`${deliveryDate}T00:00`);
+            }
+            //  else if (!checked && deliveryDate.includes('T')) {
+            //   setDeliveryDate(deliveryDate.split('T')[0]);
+            // }
+          }}
           value={deliveryDate}
           onChange={(e) => setDeliveryDate(e.target.value)}
         />
