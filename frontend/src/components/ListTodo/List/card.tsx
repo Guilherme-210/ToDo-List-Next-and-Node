@@ -6,9 +6,10 @@ export interface CardProps {
   todo: Task
   deleteTask: (idCode: string) => void
   setReloadList: () => void
+  onEdit: () => void
 }
 
-export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
+export default function Card({ todo, deleteTask, setReloadList, onEdit }: CardProps) {
   const {
     idCode,
     title,
@@ -167,7 +168,10 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
           >
             {status === "Completed" ? <SquareCheck /> : <Square />}
           </Button>
-          <Button className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded">
+          <Button
+           className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded"
+           onClick={onEdit}
+           >
             <PenLine />
           </Button>
           <Button

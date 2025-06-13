@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Card from "./card"
 import { Task } from "./interface"
+import EditedTask from "./EditedTask"
 
 export default function List({
   className = "",
@@ -14,6 +15,7 @@ export default function List({
   setReloadList: () => void
 }>) {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [editingTask, setEditingTask] = useState<Task | null>(null)
 
   const deleteTask = async (taskId: string) => {
     const confirm = window.confirm(
@@ -64,8 +66,8 @@ export default function List({
             : compareDate < todayNoTime
 
           if (
-            (isExpired && task.status === "Pending") ||
-            task.status === "Up to date"
+            isExpired && (task.status === "Pending" ||
+            task.status === "Up to date")
           ) {
             try {
               const res = await fetch(
@@ -98,29 +100,41 @@ export default function List({
   }, [reloadList])
 
   return (
-    <ul
-      className={`flex flex-col gap-2 w-full overflow-y-auto max-h-[calc(100vh-200px)] ${className}`}
-    >
-      {tasks.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-60 text-gray-500">
-          <span className="text-5xl mb-4">📝</span>
-          <p className="text-lg font-semibold">
-            You do not have any registered tasks yet.
-          </p>
-          <p className="text-sm">Add a new task to get started!</p>
-        </div>
-      ) : (
-        tasks.map((todo, index) => {
-          return (
-            <Card
-              key={index}
-              todo={todo}
-              deleteTask={deleteTask}
-              setReloadList={setReloadList}
-            />
-          )
-        })
+    <>
+      {editingTask && (
+        <EditedTask
+          task={editingTask}
+          setReloadList={setReloadList}
+          onTaskUpdated={() => {
+            setEditingTask(null)
+          }}
+        />
       )}
-    </ul>
+      <ul
+        className={`flex flex-col gap-2 w-full overflow-y-auto max-h-[calc(100vh-200px)] ${className}`}
+      >
+        {tasks.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-60 text-gray-500">
+            <span className="text-5xl mb-4">📝</span>
+            <p className="text-lg font-semibold">
+              You do not have any registered tasks yet.
+            </p>
+            <p className="text-sm">Add a new task to get started!</p>
+          </div>
+        ) : (
+          tasks.map((todo, index) => {
+            return (
+              <Card
+                key={index}
+                todo={todo}
+                deleteTask={deleteTask}
+                setReloadList={setReloadList}
+                onEdit={() => setEditingTask(todo)}
+              />
+            )
+          })
+        )}
+      </ul>
+    </>
   )
 }
