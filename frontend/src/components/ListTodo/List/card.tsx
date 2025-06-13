@@ -1,10 +1,18 @@
 import Button from "@/components/Button"
-import { CardProps } from "./interface"
+import { Task } from "./interface"
 import { PenLine, Square, SquareCheck, Trash } from "lucide-react"
+
+export interface CardProps {
+  todo: Task
+  deleteTask: (idCode: string) => void
+  setReloadList: () => void
+}
 
 export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
   const { idCode, title, description, createdAt, deliveryDate, status, id } =
     todo
+
+  let statusTextColor, statusBgColor, statusHoverBgColor
 
   const formattedCreatedAt = new Date(createdAt).toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -21,15 +29,13 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
     }
   )
 
-  let statusTextColor, statusBgColor, statusHoverBgColor
-
   switch (status) {
     case "Pending":
       statusTextColor = "text-yellow-500"
       statusBgColor = "bg-gray-500"
       statusHoverBgColor = "hover:bg-gray-700"
       break
-    case "Due":
+    case "Expired":
       statusTextColor = "text-red-500"
       statusBgColor = "bg-red-500"
       statusHoverBgColor = "hover:bg-red-600"
@@ -47,6 +53,7 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
 
   const toggleStatus = async () => {
     const newStatus = status === "Completed" ? "Pending" : "Completed"
+    const now = new Date()
 
     try {
       const res = await fetch(
@@ -56,7 +63,10 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ status: newStatus }),
+          body: JSON.stringify({
+            status: newStatus,
+            updatedAt: now.toISOString(),
+          }),
         }
       )
 
@@ -69,52 +79,52 @@ export default function Card({ todo, deleteTask, setReloadList }: CardProps) {
     }
   }
 
-    return (
-      <>
-        <li
-          id={idCode}
-          className="bg-gray-700 m-3 text-black p-4 rounded shadow hover:bg-gray-600 outline-offset-2 outline-2 outline-gray-500 :outline-gray-300 grid gap-2 grid-rows-1 sm:grid-rows-2"
-        >
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
-            {/* Coluna 1: Título */}
-            <div className="col-span-2">
-              <h3 className="text-lg font-semibold">{title}</h3>
-              <p className="mt-2 text-black">{description}</p>
-            </div>
-
-            {/* Coluna 2: Datas e Status */}
-            <div className="col-span-1 flex flex-col gap-1 text-sm text-black">
-              <span>
-                <strong>Add:</strong> {formattedCreatedAt}
-              </span>
-              <span>
-                <strong>Delivery:</strong> {formattedDeliveryDate}
-              </span>
-              <span className={`${statusTextColor}`}>
-                <strong>Status:</strong> {status}
-              </span>
-            </div>
+  return (
+    <>
+      <li
+        id={idCode}
+        className="bg-gray-700 m-3 text-black p-4 rounded shadow hover:bg-gray-600 outline-offset-2 outline-2 outline-gray-500 :outline-gray-300 grid gap-2 grid-rows-1 sm:grid-rows-2"
+      >
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+          {/* Coluna 1: Título */}
+          <div className="col-span-2">
+            <h3 className="text-lg font-semibold">{title}</h3>
+            <p className="mt-2 text-black">{description}</p>
           </div>
 
-          {/* Coluna 3: Botões */}
-          <div className="col-span-1 flex flex-col sm:flex-row gap-4 sm:justify-end items-start sm:items-center">
-            <Button
-              className={`${statusBgColor} text-white ${statusHoverBgColor} transition px-3 py-1 rounded`}
-              onClick={toggleStatus}
-            >
-              {status === "Completed" ? <SquareCheck /> : <Square />}
-            </Button>
-            <Button className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded">
-              <PenLine />
-            </Button>
-            <Button
-              className="bg-red-500 text-white hover:bg-red-600 transition px-3 py-1 rounded "
-              onClick={() => deleteTask(id)}
-            >
-              <Trash />
-            </Button>
+          {/* Coluna 2: Datas e Status */}
+          <div className="col-span-1 flex flex-col gap-1 text-sm text-black">
+            <span>
+              <strong>Add:</strong> {formattedCreatedAt}
+            </span>
+            <span>
+              <strong>Delivery:</strong> {formattedDeliveryDate}
+            </span>
+            <span className={`${statusTextColor}`}>
+              <strong>Status:</strong> {status}
+            </span>
           </div>
-        </li>
-      </>
-    )
+        </div>
+
+        {/* Coluna 3: Botões */}
+        <div className="col-span-1 flex flex-col sm:flex-row gap-4 sm:justify-end items-start sm:items-center">
+          <Button
+            className={`${statusBgColor} text-white ${statusHoverBgColor} transition px-3 py-1 rounded`}
+            onClick={toggleStatus}
+          >
+            {status === "Completed" ? <SquareCheck /> : <Square />}
+          </Button>
+          <Button className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded">
+            <PenLine />
+          </Button>
+          <Button
+            className="bg-red-500 text-white hover:bg-red-600 transition px-3 py-1 rounded "
+            onClick={() => deleteTask(id)}
+          >
+            <Trash />
+          </Button>
+        </div>
+      </li>
+    </>
+  )
 }
