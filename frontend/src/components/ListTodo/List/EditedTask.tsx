@@ -5,7 +5,8 @@ import InputLabel from "@/components/InputLabel"
 import TextareaLabel from "@/components/TextareaLabel"
 import Button from "@/components/Button"
 import SectionHeader from "@/components/SectionHeader"
-import { reloadListContext } from "@/app/todolist/reloadListContext"
+import { reloadListContext } from "@/context/reloadListContext"
+import { todoAPI } from "@/services/api/todoService"
 
 interface EditedTaskProps {
   task: {
@@ -32,23 +33,15 @@ export default function EditedTask({ task, onTaskUpdated }: EditedTaskProps) {
     setIsSubmitting(true)
 
     try {
-      const res = await fetch(
-        `https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List/${task.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title,
-            description,
-            deliveryDate,
-            hasDeliveryTime,
-            status: "Up to date",
-            updatedAt: new Date().toISOString(),
-          }),
-        }
-      )
-
-      if (!res.ok) throw new Error("Erro ao atualizar tarefa")
+      await todoAPI.update(task.id, {
+        title,
+        description,
+        deliveryDate: hasDeliveryTime
+          ? new Date(deliveryDate).toISOString()
+          : new Date(`${deliveryDate}T00:00:01`).toISOString(),
+        status: "Up to date",
+        updatedAt: new Date().toISOString(),
+      })
 
       onTaskUpdated()
       setReloadList((prev) => !prev)

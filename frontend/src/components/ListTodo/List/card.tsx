@@ -1,8 +1,11 @@
 import Button from "@/components/Button"
-import { Task } from "./interface"
+import { Task } from "../../../types/Task"
 import { PenLine, Square, SquareCheck, Trash } from "lucide-react"
-import { reloadListContext } from "@/app/todolist/reloadListContext"
+import { reloadListContext } from "@/context/reloadListContext"
 import { useContext } from "react"
+import { formatDate } from "@/utils/formatDate"
+import { getStatusColor } from "@/utils/statusColors"
+import { todoAPI } from "@/services/api/todoService"
 
 export interface CardProps {
   todo: Task
@@ -25,67 +28,7 @@ export default function Card({ todo, deleteTask, onEdit }: CardProps) {
   } = todo
   const { setReloadList } = useContext(reloadListContext)!
 
-  let statusTextColor, statusBgColor, statusHoverBgColor
-
-  const formattedCreatedAt = new Date(createdAt).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  })
-
-  const formattedDeliveryDate = new Date(deliveryDate).toLocaleDateString(
-    "pt-BR",
-    {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      ...(hasDeliveryTime && {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    }
-  )
-
-  const formattedCompletedAt = new Date(completedAt).toLocaleDateString(
-    "pt-BR",
-    {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  )
-
-  const formattedUpdatedAt = new Date(updatedAt).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  })
-
-  switch (status) {
-    case "Pending":
-      statusTextColor = "text-yellow-500"
-      statusBgColor = "bg-gray-500"
-      statusHoverBgColor = "hover:bg-gray-700"
-      break
-    case "Expired":
-      statusTextColor = "text-red-500"
-      statusBgColor = "bg-red-500"
-      statusHoverBgColor = "hover:bg-red-600"
-      break
-    case "Completed":
-      statusTextColor = "text-green-500"
-      statusBgColor = "bg-green-500"
-      statusHoverBgColor = "hover:bg-green-600"
-      break
-    default:
-      statusTextColor = "text-gray-500"
-      statusBgColor = "bg-gray-500"
-      statusHoverBgColor = "hover:bg-gray-700"
-  }
+  const { text, bg, bgHover } = getStatusColor(status)
 
   const toggleStatus = async () => {
     const now = new Date()
@@ -102,22 +45,11 @@ export default function Card({ todo, deleteTask, onEdit }: CardProps) {
           }
 
     try {
-      const res = await fetch(
-        `https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            status: toggleStatus.newStatus,
-            completedAt: toggleStatus.completedAt,
-          }),
-        }
-      )
-
-      if (!res.ok) throw new Error("Erro ao atualizar status")
-
+      await todoAPI.update(id, {
+        status: toggleStatus.newStatus,
+        completedAt: toggleStatus.completedAt,
+      })
+      
       setReloadList((prev) => !prev) // Força recarregar a lista
     } catch (err) {
       console.error(err)
@@ -142,21 +74,24 @@ export default function Card({ todo, deleteTask, onEdit }: CardProps) {
           <div className="col-span-1 flex flex-col gap-1 text-sm text-black">
             {status === "Completed" ? (
               <span>
-                <strong>completo:</strong> {formattedCompletedAt}
+                <strong>completo:</strong>{" "}
+                {formatDate(completedAt, hasDeliveryTime)}
               </span>
             ) : updatedAt > createdAt ? (
               <span>
-                <strong>Edited:</strong> {formattedUpdatedAt}
+                <strong>Edited:</strong>{" "}
+                {formatDate(updatedAt, hasDeliveryTime)}
               </span>
             ) : (
               <span>
-                <strong>Add:</strong> {formattedCreatedAt}
+                <strong>Add:</strong> {formatDate(createdAt, hasDeliveryTime)}
               </span>
             )}
             <span>
-              <strong>Delivery:</strong> {formattedDeliveryDate}
+              <strong>Delivery:</strong>{" "}
+              {formatDate(deliveryDate, hasDeliveryTime)}
             </span>
-            <span className={`${statusTextColor}`}>
+            <span className={`${text}`}>
               <strong>Status:</strong> {status}
             </span>
           </div>
@@ -165,7 +100,7 @@ export default function Card({ todo, deleteTask, onEdit }: CardProps) {
         {/* Coluna 3: Botões */}
         <div className="col-span-1 flex flex-col sm:flex-row gap-4 sm:justify-end items-start sm:items-center">
           <Button
-            className={`${statusBgColor} text-white ${statusHoverBgColor} transition px-3 py-1 rounded`}
+            className={`${bg} text-white ${bgHover} transition px-3 py-1 rounded`}
             onClick={toggleStatus}
           >
             {status === "Completed" ? <SquareCheck /> : <Square />}

@@ -5,7 +5,8 @@ import Button from "../../Button"
 import InputLabel from "../../InputLabel"
 import TextareaLabel from "../../TextareaLabel"
 import InputDelivery from "./Inputs/InputDelivery"
-import { reloadListContext } from "@/app/todolist/reloadListContext"
+import { reloadListContext } from "@/context/reloadListContext"
+import { todoAPI } from "@/services/api/todoService"
 
 export default function Form() {
   const [title, setTitle] = useState("")
@@ -43,33 +44,22 @@ export default function Form() {
       title: title,
       description: description,
 
-      status: deliveryDate <= createdAt ? "Pending" : "up to date",
+      status:
+        new Date(deliveryDate) <= new Date(createdAt)
+          ? "Pending"
+          : "Up to date",
+
       deliveryDate: hasDeliveryTime
         ? new Date(deliveryDate).toISOString()
         : new Date(`${deliveryDate}T00:00:01`).toISOString(),
     }
 
     try {
-      const res = await fetch(
-        "https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newTask),
-        }
-      )
+      await todoAPI.create(newTask)
 
-      if (res.ok) {
-        const data = await res.json()
-        // alert("Tarefa adicionada com sucesso!")
-        resetForm()
-        setReloadList((prev) => !prev)
-        console.log("Task created:", data)
-      } else {
-        const errorData = await res.json()
-        console.error("API Error:", errorData)
-        alert("Error adding task: " + errorData.message)
-      }
+      resetForm()
+      setReloadList((prev) => !prev)
+      console.log("Task created:")
     } catch (error) {
       console.error("Error connecting to API:", error)
       alert("API connection error. Please try again later.")
@@ -99,9 +89,6 @@ export default function Form() {
             if (checked && deliveryDate.length === 10) {
               setDeliveryDate(`${deliveryDate}T00:00`)
             }
-            //  else if (!checked && deliveryDate.includes('T')) {
-            //   setDeliveryDate(deliveryDate.split('T')[0]);
-            // }
           }}
           value={deliveryDate}
           onChange={(e) => setDeliveryDate(e.target.value)}

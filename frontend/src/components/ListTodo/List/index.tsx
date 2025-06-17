@@ -2,9 +2,10 @@
 
 import { useContext, useEffect, useState } from "react"
 import Card from "./card"
-import { Task } from "./interface"
+import { Task } from "../../../types/Task"
 import EditedTask from "./EditedTask"
-import { reloadListContext } from "@/app/todolist/reloadListContext"
+import { reloadListContext } from "@/context/reloadListContext"
+import { todoAPI } from "@/services/api/todoService"
 
 export default function List({
   className = "",
@@ -22,14 +23,7 @@ export default function List({
     if (!confirm) return
 
     try {
-      const res = await fetch(
-        `https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List/${taskId}`,
-        {
-          method: "DELETE",
-        }
-      )
-
-      if (!res.ok) throw new Error("Falha ao deletar")
+      await todoAPI.remove(taskId)
 
       setReloadList((prev) => !prev)
     } catch (err) {
@@ -40,10 +34,7 @@ export default function List({
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await fetch(
-        "https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List"
-      )
-      const data: Task[] = await res.json()
+      const data: Task[] = await todoAPI.getAll()
 
       const todayWithTime = new Date()
       const todayNoTime = new Date(todayWithTime)
@@ -68,18 +59,9 @@ export default function List({
             (task.status === "Pending" || task.status === "Up to date")
           ) {
             try {
-              const res = await fetch(
-                `https://67e05cc17635238f9aad538a.mockapi.io/api/v1/ToDo-List/${task.id}`,
-                {
-                  method: "PUT",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    status: "Expired",
-                  }),
-                }
-              )
-
-              if (!res.ok) throw new Error("Error updating expired status")
+              await todoAPI.update(task.id, {
+                status: "Expired",
+              })
 
               return { ...task, status: "Expired" }
             } catch (err) {
