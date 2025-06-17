@@ -3,7 +3,7 @@
 import SectionHeader from "../SectionHeader"
 import Form from "./Form"
 
-export default function FormTodo({ onTaskCreated }: { onTaskCreated: () => void }) {
+export default function FormTodo() {
   return (
     <>
       <SectionHeader
@@ -16,7 +16,7 @@ export default function FormTodo({ onTaskCreated }: { onTaskCreated: () => void 
           Use the form below to add tasks to your list.
         </p>
 
-        <Form onTaskCreated={onTaskCreated} />
+        <Form />
       </SectionHeader>
     </>
   )

@@ -1,10 +1,11 @@
 "use client"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import InputDelivery from "@/components/FormTodo/Form/Inputs/InputDelivery"
 import InputLabel from "@/components/InputLabel"
 import TextareaLabel from "@/components/TextareaLabel"
 import Button from "@/components/Button"
 import SectionHeader from "@/components/SectionHeader"
+import { reloadListContext } from "@/app/todolist/reloadListContext"
 
 interface EditedTaskProps {
   task: {
@@ -15,20 +16,16 @@ interface EditedTaskProps {
     status: string
     hasDeliveryTime: boolean
   }
-  setReloadList: () => void
-  onTaskUpdated: () => void // Isso agora também fecha o modal
+  onTaskUpdated: () => void
 }
 
-export default function EditedTask({
-  task,
-  onTaskUpdated,
-  setReloadList,
-}: EditedTaskProps) {
+export default function EditedTask({ task, onTaskUpdated }: EditedTaskProps) {
   const [title, setTitle] = useState(task.title)
   const [description, setDescription] = useState(task.description)
   const [deliveryDate, setDeliveryDate] = useState(task.deliveryDate)
   const [hasDeliveryTime, setHasDeliveryTime] = useState(task.hasDeliveryTime)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { setReloadList } = useContext(reloadListContext)!
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,7 +51,7 @@ export default function EditedTask({
       if (!res.ok) throw new Error("Erro ao atualizar tarefa")
 
       onTaskUpdated()
-      setReloadList()
+      setReloadList((prev) => !prev)
     } catch (err) {
       console.error("Erro ao atualizar tarefa:", err)
       alert("Erro ao atualizar tarefa. Tente novamente.")
@@ -115,7 +112,6 @@ export default function EditedTask({
           </div>
         </form>
       </SectionHeader>
-      {/* </div> */}
     </div>
   )
 }

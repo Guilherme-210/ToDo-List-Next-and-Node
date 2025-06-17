@@ -1,15 +1,16 @@
 import Button from "@/components/Button"
 import { Task } from "./interface"
 import { PenLine, Square, SquareCheck, Trash } from "lucide-react"
+import { reloadListContext } from "@/app/todolist/reloadListContext"
+import { useContext } from "react"
 
 export interface CardProps {
   todo: Task
   deleteTask: (idCode: string) => void
-  setReloadList: () => void
   onEdit: () => void
 }
 
-export default function Card({ todo, deleteTask, setReloadList, onEdit }: CardProps) {
+export default function Card({ todo, deleteTask, onEdit }: CardProps) {
   const {
     idCode,
     title,
@@ -22,6 +23,7 @@ export default function Card({ todo, deleteTask, setReloadList, onEdit }: CardPr
     updatedAt,
     completedAt,
   } = todo
+  const { setReloadList } = useContext(reloadListContext)!
 
   let statusTextColor, statusBgColor, statusHoverBgColor
 
@@ -116,7 +118,7 @@ export default function Card({ todo, deleteTask, setReloadList, onEdit }: CardPr
 
       if (!res.ok) throw new Error("Erro ao atualizar status")
 
-      setReloadList() // Força recarregar a lista
+      setReloadList((prev) => !prev) // Força recarregar a lista
     } catch (err) {
       console.error(err)
       alert("Erro ao mudar o status da tarefa.")
@@ -169,9 +171,9 @@ export default function Card({ todo, deleteTask, setReloadList, onEdit }: CardPr
             {status === "Completed" ? <SquareCheck /> : <Square />}
           </Button>
           <Button
-           className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded"
-           onClick={onEdit}
-           >
+            className="bg-green-500 text-white hover:bg-green-600 transition px-3 py-1 rounded"
+            onClick={onEdit}
+          >
             <PenLine />
           </Button>
           <Button

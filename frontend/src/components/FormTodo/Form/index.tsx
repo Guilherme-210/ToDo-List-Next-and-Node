@@ -1,17 +1,19 @@
 "use client"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import Button from "../../Button"
 import InputLabel from "../../InputLabel"
 import TextareaLabel from "../../TextareaLabel"
 import InputDelivery from "./Inputs/InputDelivery"
+import { reloadListContext } from "@/app/todolist/reloadListContext"
 
-export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
+export default function Form() {
   const [title, setTitle] = useState("")
   const [deliveryDate, setDeliveryDate] = useState("")
   const [description, setDescription] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [hasDeliveryTime, setHasDeliveryTime] = useState(false) 
+  const [hasDeliveryTime, setHasDeliveryTime] = useState(false)
+  const { setReloadList } = useContext(reloadListContext)!
 
   const resetForm = () => {
     setTitle("")
@@ -41,7 +43,7 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
       title: title,
       description: description,
 
-      status: deliveryDate <= createdAt ? "Pending" : "up to date" ,
+      status: deliveryDate <= createdAt ? "Pending" : "up to date",
       deliveryDate: hasDeliveryTime
         ? new Date(deliveryDate).toISOString()
         : new Date(`${deliveryDate}T00:00:01`).toISOString(),
@@ -61,7 +63,7 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
         const data = await res.json()
         // alert("Tarefa adicionada com sucesso!")
         resetForm()
-        onTaskCreated()
+        setReloadList((prev) => !prev)
         console.log("Task created:", data)
       } else {
         const errorData = await res.json()
@@ -95,7 +97,7 @@ export default function Form({ onTaskCreated }: { onTaskCreated: () => void }) {
           onToggleDeliveryTime={(checked) => {
             setHasDeliveryTime(checked)
             if (checked && deliveryDate.length === 10) {
-              setDeliveryDate(`${deliveryDate}T00:00`);
+              setDeliveryDate(`${deliveryDate}T00:00`)
             }
             //  else if (!checked && deliveryDate.includes('T')) {
             //   setDeliveryDate(deliveryDate.split('T')[0]);

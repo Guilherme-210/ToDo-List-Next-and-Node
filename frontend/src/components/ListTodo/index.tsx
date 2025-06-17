@@ -1,7 +1,7 @@
 import SectionHeader from "../SectionHeader"
 import List from "./List"
 
-export default function ListTodo({ reloadList, setReloadList }: { reloadList: boolean, setReloadList: () => void }) {
+export default function ListTodo() {
   return (
     <>
       <SectionHeader
@@ -15,7 +15,7 @@ export default function ListTodo({ reloadList, setReloadList }: { reloadList: bo
             Below are your created task. Mark as completed or delete.
           </p>
 
-          <List reloadList={reloadList} setReloadList={setReloadList} />
+          <List  />
         </div>
       </SectionHeader>
     </>

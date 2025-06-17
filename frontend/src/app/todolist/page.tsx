@@ -3,20 +3,20 @@
 import ListTodo from "@/components/ListTodo"
 import FormTodo from "@/components/FormTodo"
 import { useState } from "react"
+import { reloadListContext } from "./reloadListContext"
 
 export default function TodoList() {
   const [reloadList, setReloadList] = useState(false)
 
   return (
-    <main className="grid grid-cols-2 max-md:grid-cols-1 max-md:grid-rows-2 max-md:gap-0 items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      {/* Formulário */}
-      <FormTodo onTaskCreated={() => setReloadList((prev) => !prev)} />
+    <reloadListContext.Provider value={{reloadList, setReloadList}}>
+      <main className="grid grid-cols-2 max-md:grid-cols-1 max-md:grid-rows-2 max-md:gap-0 items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+        {/* Formulário */}
+        <FormTodo />
 
-      {/* Lista de Tarefas */}
-      <ListTodo
-        reloadList={reloadList}
-        setReloadList={() => setReloadList((prev) => !prev)}
-      />
-    </main>
+        {/* Lista de Tarefas */}
+        <ListTodo />
+      </main>
+    </reloadListContext.Provider>
   )
 }

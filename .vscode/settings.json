@@ -1,7 +1,7 @@
 {
   // editor
   "editor.wordWrap": "on", //quebrado de linha na largura da janela de visualização do editor
-  "editor.fontSize": 16, // Tamanho das fontes
+  "editor.fontSize": 14, // Tamanho das fontes
   "editor.lineHeight": 30, // Distancia das linhas
   "editor.tabSize": 2, // Define o tamanho da tabulação como 2 espaços
   "editor.bracketPairColorization.enabled": true, // Ativa a colorização dos pares de colchetes

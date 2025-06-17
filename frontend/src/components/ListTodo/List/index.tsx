@@ -1,21 +1,19 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Card from "./card"
 import { Task } from "./interface"
 import EditedTask from "./EditedTask"
+import { reloadListContext } from "@/app/todolist/reloadListContext"
 
 export default function List({
   className = "",
-  reloadList,
-  setReloadList,
 }: Readonly<{
   className?: string
-  reloadList: boolean
-  setReloadList: () => void
 }>) {
   const [tasks, setTasks] = useState<Task[]>([])
   const [editingTask, setEditingTask] = useState<Task | null>(null)
+  const { reloadList, setReloadList } = useContext(reloadListContext)!
 
   const deleteTask = async (taskId: string) => {
     const confirm = window.confirm(
@@ -33,7 +31,7 @@ export default function List({
 
       if (!res.ok) throw new Error("Falha ao deletar")
 
-      setReloadList()
+      setReloadList((prev) => !prev)
     } catch (err) {
       console.error(err)
       alert("Erro ao deletar tarefa.")
@@ -66,8 +64,8 @@ export default function List({
             : compareDate < todayNoTime
 
           if (
-            isExpired && (task.status === "Pending" ||
-            task.status === "Up to date")
+            isExpired &&
+            (task.status === "Pending" || task.status === "Up to date")
           ) {
             try {
               const res = await fetch(
@@ -104,7 +102,6 @@ export default function List({
       {editingTask && (
         <EditedTask
           task={editingTask}
-          setReloadList={setReloadList}
           onTaskUpdated={() => {
             setEditingTask(null)
           }}
@@ -128,7 +125,6 @@ export default function List({
                 key={index}
                 todo={todo}
                 deleteTask={deleteTask}
-                setReloadList={setReloadList}
                 onEdit={() => setEditingTask(todo)}
               />
             )
