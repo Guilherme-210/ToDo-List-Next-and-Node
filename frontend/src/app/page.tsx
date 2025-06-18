@@ -13,13 +13,6 @@ export default function Home() {
 
         <div className="flex flex-row items-center sm:items-start gap-4 w-full justify-center">
           <LinkButton
-            href="/createdtask"
-            className="bg-blue-600 text-white hover:bg-blue-700"
-          >
-            <span>Create a new task</span>
-          </LinkButton>
-
-          <LinkButton
             href="/todolist"
             className="bg-blue-600 text-white hover:bg-blue-700"
           >
